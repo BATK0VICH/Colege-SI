@@ -3,6 +3,7 @@ alphabet = list(string.ascii_uppercase)
 
 
 def cezar(input: str, key: int) -> str:
+    """ Encrypts a string via Cezar """
     result = ""
     for char in input:
         result += chr(ord(char) + key)
@@ -10,6 +11,7 @@ def cezar(input: str, key: int) -> str:
 
 
 def decrypt_cezar(encrypted: str, key: int) -> str:
+    """ Decrypts Cezar cypher """
     decrypted = ""
     for char in encrypted:
         decrypted = decrypted + chr(ord(char) - key)
@@ -17,6 +19,7 @@ def decrypt_cezar(encrypted: str, key: int) -> str:
 
 
 def vigenere(input: str, key: str) -> str:
+    """ Encrypts a string via Vigenere """
     key_index = 0
     result = ""
     key = key.upper()
@@ -33,7 +36,9 @@ def vigenere(input: str, key: str) -> str:
             key_index += 1
     return result
 
+
 def decrypt_vigenere(encrypted: str, key: str) -> str:
+    """ Decrypts Vigenere cypher """
     key_index = 0
     result = ""
     key = key.upper()
@@ -41,22 +46,22 @@ def decrypt_vigenere(encrypted: str, key: str) -> str:
         if (char in alphabet):
             if (key_index > len(key) - 1):
                 key_index = 0
-        position = alphabet.index(char)
-        old_position = position - alphabet.index(key[key_index]) 
-        if (old_position < 0):
-            old_position = old_position + 26
-        decrypted_char = alphabet[old_position]
-        key_index += 1 
-        result += decrypted_char
+            position = alphabet.index(char)
+            old_position = position - alphabet.index(key[key_index]) 
+            if (old_position < 0):
+                old_position = old_position + 26
+            decrypted_char = alphabet[old_position]
+            key_index += 1 
+            result += decrypted_char
     return result
 
+
 def main():
-    user_input = "THANK YOU"
-    key = "POLITE"
-    encrypter = vigenere(user_input, key)
-    print(encrypter)
-    print(decrypt_vigenere(encrypter, key))
+    user_input = "WEB DESIGN"
+    key = "BROWSER"
+    print(decrypt_vigenere(user_input, key))
     return 0
+
 
 if __name__ == "__main__":
     main()
