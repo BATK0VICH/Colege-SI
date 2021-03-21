@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import string
 alphabet = list(string.ascii_uppercase)
 
@@ -16,6 +17,39 @@ def decrypt_cezar(encrypted: str, key: int) -> str:
     for char in encrypted:
         decrypted = decrypted + chr(ord(char) - key)
     return decrypted
+
+
+def replacement(input: str, key: str) -> str:
+    """ Cezar with keyword (replacement method) """
+    replacement_alphabet = create_replacement_alphabet(key)
+    result = ""
+    for char in input:
+        if char.isalpha():
+            position = alphabet.index(char)
+            result += replacement_alphabet[position]
+    return result
+
+
+def create_replacement_alphabet(key: str) -> list:
+    replacement_alphabet = alphabet.copy()
+    # creates a string without duplicates
+    replacement_key = "".join(OrderedDict.fromkeys(key[::-1]))
+    for char in replacement_key.upper():
+        if char.isalpha():
+            replacement_alphabet.remove(char)
+            replacement_alphabet.insert(0, char)
+    return replacement_alphabet
+
+
+def decrypt_replacement(encrypted: str, key: str) -> str:
+    """ Decrypts Cezar with keyword (replacement method) """
+    replacement_alphabet = create_replacement_alphabet(key)
+    result = ""
+    for char in encrypted:
+        if char.isalpha():
+            position = replacement_alphabet.index(char)
+            result += alphabet[position]
+    return result
 
 
 def vigenere(input: str, key: str) -> str:
@@ -54,14 +88,3 @@ def decrypt_vigenere(encrypted: str, key: str) -> str:
             key_index += 1 
             result += decrypted_char
     return result
-
-
-def main():
-    user_input = "WEB DESIGN"
-    key = "BROWSER"
-    print(decrypt_vigenere(user_input, key))
-    return 0
-
-
-if __name__ == "__main__":
-    main()
